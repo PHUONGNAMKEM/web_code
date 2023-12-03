@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    <div id="toast">
+        <!-- Success -->
+    </div>
+
+
+    <div>
+        <div onclick="showSuccessToast();" class="btn btn--success">Show success toast</div>
+        <div onclick="showErrorToast();" class="btn btn--danger">Show error toast</div> 
+    </div>
+    
+    <!-- <div class="toast toast--success">
+        <div class="toastion-icon name="checkmark-circle"></ion-icon>
+        </div>
+        <div class="toast__body">
+            <h3 class="__icon">
+            <toast__tittle">Success</h3>
+            <p class="toast__msg">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus tempore, nisi, qui eum consequuntur totam rerum </p>
+        </div>
+        <div class="toast__lose">
+            <ion-icon name="close"></ion-icon>
+        </div>
+    </div> -->
+
+    <script>
+        // Toast function
+        function toast ({
+            tittle = '',
+            message = '',
+            type = 'info',
+            duration = 3000
+        }) {
+            const main = document.getElementById('toast');
+            if (main) {
+                const toast = document.createElement('div');
+
+                //Auto remove toast
+                const autoRemoveId = setTimeout(function() {
+                    main.removeChild(toast);
+                }, duration + 1000); 
+
+                //Remove toast when click
+                toast.onclick = function (e) {
+                    if(e.target.closest('.toast__lose')) {
+                        main.removeChild(toast);
+                        clearTimeout(autoRemoveId);
+                    }
+                }   
+                const icons = {
+                    success: 'checkmark-circle',
+                    infor: 'information-circle',
+                    warning: 'alert-circle',
+                    error: 'heart',
+                };
+                const icon = icons[type];
+                const delay = (duration / 1000).toFixed(2);
+                // const fadeOut = 
+
+                toast.classList.add('toast', `toast--${type}`); 
+                toast.style.animation = `slideInLeft ease .4s, fadeOut linear 1s ${delay}s forwards`;
+                toast.innerHTML = `
+                    <div class="toast__icon">
+                        <ion-icon name="${icon}"></ion-icon>
+                    </div>
+                    <div class="toast__body">
+                        <h3 class="toast__tittle">${tittle}</h3>
+                        <p class="toast__msg">${message}</p>
+                    </div>
+                    <div class="toast__lose">
+                        <ion-icon name="close"></ion-icon>
+                    </div>
+                `;
+                main.appendChild(toast);
+
+                
+                //duration là thời gian ngắn có nghĩa là ví dụ như duration bằng 3000 thì sau 3s nó sẽ tự động ngắt. 
+                //Mà 3s chỉ đủ thời gian cho cái delay nó chạy thôi (delay 3s). 
+                //Nên ta phải cộng thêm 1000 vào nữa để nó có thêm 1s chạy cái fadeOut. 
+             }
+        }
+        
+        function showSuccessToast () {
+            toast ({
+                tittle: 'Success!',
+                message: 'You look so good',
+                type: 'success', 
+                duration: 5000
+            });
+        }
+        function showErrorToast () {
+            toast ({
+                tittle: 'Error!',
+                message: 'You will be failed',
+                type: 'error', 
+                duration: 5000
+            });
+        }
+    </script>
+
+
+    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, expedita laboriosam eos!</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="box-shadow"></div>
+</body>
+</html>
